@@ -1,0 +1,38 @@
+{
+  "name": "@taisan11/xxhash",
+  "version": "0.0.1",
+  "description": "A fast non-cryptographic hash algorithm library for JavaScript and TypeScript.",
+  "homepage": "https://github.com/taisan11/xxhash#readme",
+  "bugs": {
+    "url": "https://github.com/taisan11/xxhash/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/taisan11/xxhash.git"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "exports": {
+    ".": "./dist/index.mjs",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "test": "vitest",
+    "bench":"vitest bench",
+    "typecheck": "tsc --noEmit",
+    "release": "bumpp",
+    "prepublishOnly": "bun run build"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "bumpp": "^11.1.0",
+    "tsdown": "^0.22.4",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.10",
+    "xxhashjs": "^0.2.2"
+  }
+}
