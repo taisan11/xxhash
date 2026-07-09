@@ -22,7 +22,7 @@
     "build": "tsdown",
     "dev": "tsdown --watch",
     "test": "vitest",
-    "bench":"vitest bench",
+    "bench": "vitest bench",
     "typecheck": "tsc --noEmit",
     "release": "bumpp",
     "prepublishOnly": "bun run build"

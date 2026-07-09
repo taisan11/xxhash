@@ -5,12 +5,12 @@
     "": {
       "name": "tsdown-starter",
       "devDependencies": {
-        "@types/node": "^26.1.1",
-        "bumpp": "^11.1.0",
-        "tsdown": "^0.22.4",
-        "typescript": "^7.0.2",
-        "vitest": "^4.1.10",
-        "xxhashjs": "^0.2.2",
+        "@types/node": "latest",
+        "bumpp": "latest",
+        "tsdown": "latest",
+        "typescript": "latest",
+        "vitest": "latest",
+        "xxhashjs": "latest",
       },
     },
   },
