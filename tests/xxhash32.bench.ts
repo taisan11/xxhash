@@ -27,7 +27,7 @@ describe("xxhash32 benchmark vs xxhashjs (medium 4KB)", () => {
   bench("xxhashjs.h32", () => {
     xxhashjs.h32(mediumBuffer, seed).toNumber();
   });
-})
+});
 
 describe("xxhash32 benchmark vs xxhashjs (large 64KB)", () => {
   bench("xxhash32", () => {
@@ -36,4 +36,4 @@ describe("xxhash32 benchmark vs xxhashjs (large 64KB)", () => {
   bench("xxhashjs.h32", () => {
     xxhashjs.h32(largeBuffer, seed).toNumber();
   });
-})
+});

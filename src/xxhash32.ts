@@ -19,10 +19,7 @@ function round(acc: number, input: number) {
 // read a little-endian 32-bit value
 function read32(buf: Uint8Array, offset: number) {
   const value =
-    buf[offset] |
-    (buf[offset + 1] << 8) |
-    (buf[offset + 2] << 16) |
-    (buf[offset + 3] << 24);
+    buf[offset] | (buf[offset + 1] << 8) | (buf[offset + 2] << 16) | (buf[offset + 3] << 24);
   return value >>> 0;
 }
 
@@ -50,8 +47,7 @@ export function xxhash32(input: Uint8Array, seed: number = 0) {
       acc3 = round(acc3, lane3);
       acc4 = round(acc4, lane4);
     }
-    acc =
-      (rotl(acc1, 1) + rotl(acc2, 7) + rotl(acc3, 12) + rotl(acc4, 18)) >>> 0;
+    acc = (rotl(acc1, 1) + rotl(acc2, 7) + rotl(acc3, 12) + rotl(acc4, 18)) >>> 0;
   }
   acc = (acc + input.length) >>> 0;
   while (remainingLength >= 4) {
