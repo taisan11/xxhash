@@ -9,3 +9,14 @@
 
 This is a simple yet high-performance xxhash implementation designed for educational purposes.
 Based on browser APIs without unnecessary overhead, it achieves both speed and lightweight performance.
+
+## API Docs
+```ts
+import {xxhash32,xxhash64} from "@taisan11/xxhash"
+
+const encoder = new TextEncoder()
+
+console.log(xxhash32(encoder.encode("hello xxhash32")))
+
+console.log(xxhash64(encoder.encode("hello xxhash64")))
+```
