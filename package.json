@@ -1,6 +1,6 @@
 {
   "name": "@taisan11/xxhash",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A fast non-cryptographic hash algorithm library for JavaScript and TypeScript.",
   "homepage": "https://github.com/taisan11/xxhash#readme",
   "bugs": {
