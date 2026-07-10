@@ -6,19 +6,6 @@ const PRIME64_5 = 0x27d4eb2f165667c5n;
 
 const MASK64 = 0xffffffffffffffffn;
 
-function read64(buf: Uint8Array, offset: number): bigint {
-  return (
-    BigInt(buf[offset]) |
-    (BigInt(buf[offset + 1]) << 8n) |
-    (BigInt(buf[offset + 2]) << 16n) |
-    (BigInt(buf[offset + 3]) << 24n) |
-    (BigInt(buf[offset + 4]) << 32n) |
-    (BigInt(buf[offset + 5]) << 40n) |
-    (BigInt(buf[offset + 6]) << 48n) |
-    (BigInt(buf[offset + 7]) << 56n)
-  );
-}
-
 function rotl64(x: bigint, r: bigint): bigint {
   return ((x << r) | (x >> (64n - r))) & MASK64;
 }
@@ -38,7 +25,8 @@ function mergeAccumulator(acc: bigint, accN: bigint): bigint {
 
 export function xxhash64(input: Uint8Array, seed: bigint = 0n): bigint {
   let acc: bigint;
-  const len = BigInt(input.length);
+  let offset: number = 0;
+  const view = new DataView(input.buffer, input.byteOffset, input.byteLength);
   if (input.length < 32) {
     acc = seed + PRIME64_5;
   } else {
@@ -46,11 +34,11 @@ export function xxhash64(input: Uint8Array, seed: bigint = 0n): bigint {
     let acc2 = seed + PRIME64_2;
     let acc3 = seed + 0n;
     let acc4 = seed - PRIME64_1;
-    for (let i = 0; i + 32 <= input.length; i += 32) {
-      const lane1 = read64(input, i);
-      const lane2 = read64(input, i + 8);
-      const lane3 = read64(input, i + 16);
-      const lane4 = read64(input, i + 24);
+    for (; offset + 32 <= input.length; offset += 32) {
+      const lane1 = view.getBigUint64(offset, true);
+      const lane2 = view.getBigUint64(offset + 8, true);
+      const lane3 = view.getBigUint64(offset + 16, true);
+      const lane4 = view.getBigUint64(offset + 24, true);
       acc1 = round(acc1, lane1);
       acc2 = round(acc2, lane2);
       acc3 = round(acc3, lane3);
@@ -62,20 +50,15 @@ export function xxhash64(input: Uint8Array, seed: bigint = 0n): bigint {
     acc = mergeAccumulator(acc, acc3);
     acc = mergeAccumulator(acc, acc4);
   }
-  acc = (acc + len) & MASK64;
-  let offset = input.length - (input.length % 32);
+  acc = (acc + BigInt(input.length)) & MASK64;
   while (input.length >= offset + 8) {
-    const lane = read64(input, offset);
+    const lane:bigint = view.getBigUint64(offset, true);
     acc = (acc ^ round(0n, lane)) & MASK64;
     acc = (rotl64(acc, 27n) * PRIME64_1 + PRIME64_4) & MASK64;
     offset += 8;
   }
   if (input.length >= offset + 4) {
-    const lane =
-      BigInt(input[offset]) |
-      (BigInt(input[offset + 1]) << 8n) |
-      (BigInt(input[offset + 2]) << 16n) |
-      (BigInt(input[offset + 3]) << 24n);
+    const lane = BigInt(view.getUint32(offset, true));
     acc = (acc ^ (lane * PRIME64_1)) & MASK64;
     acc = (rotl64(acc, 23n) * PRIME64_2 + PRIME64_3) & MASK64;
     offset += 4;
